@@ -1,33 +1,30 @@
-#! bin/bash
-USERID=$[id -u]
-TIMESTAMP=$(date +%F-%H:%M:%S)
+#!/bin/bash
+
+USERID=$(id -u)
+TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
 
+VALIDATE(){
+   if [ $1 -ne 0 ]
+   then
+        echo "$2...FAILURE"
+        exit 1
+    else
+        echo "$2...SUCCESS"
+    fi
+}
+
 if [ $USERID -ne 0 ]
 then
-echo "please user the super user access"
-exit 1
-esle
-echo "you are super user"
+    echo "Please run this script with root access."
+    exit 1 # manually exit if error comes.
+else
+    echo "You are super user."
 fi
 
-dnf install mysql -y &>>LOGFILE
-if [ $? -ne 0 ]
-then
-echo " installation of mysql failed.."
-exit 1
-esle
-echo "installation of mysql was success"
-fi
+dnf install mysql -y &>>$LOGFILE
+VALIDATE $? "Installing MySQL"
 
-dnf install git -y &>>LOGFILE
-if [ $? -ne 0 ]
-then
-echo "Installation of git failed--"
-esle
-echo "Installation of git success"
-fi
-
-echo "Is script still running"
-
+dnf install git -y &>>$LOGFILE
+VALIDATE $? "Installing Git"
