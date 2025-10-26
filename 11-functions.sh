@@ -1,7 +1,7 @@
 #!/bin/bash
 USERID=$(id -u)
 
-VALIDATE(){
+VALIDATE() {
     if [ $1 -ne 0 ]
     then
         echo " $2 .... FAILURE"
