@@ -10,6 +10,16 @@ G="\e[32m"
 N="\e[0m"
 Y="\e[33m"
 
+VALIDATE(){
+    if [ $1 -ne 0 ]
+    then
+        echo -e "$2 ...$R FAILURE"
+        exit 1
+    else
+        echo -e "$2... $G SUCCESS"
+    fi
+}
+
 if [ $USERID -ne 0 ]
 then
     echo "Pls run with sudo user"
@@ -26,6 +36,7 @@ do
     then
         echo -e "$i is already instaled ...$Y SKIPPING $N"
     else
-        echo -e "$i is not installed ...$Y need yo install"
+        dnf install $i -y &>>LOGFILE
+        VALIDATE $? "Installaton of : $i"
     fi
 done
