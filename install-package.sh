@@ -27,4 +27,5 @@ do
         echo -e "$i is already instaled ...$Y SKIPPING $N"
     else
         echo -e "$i is not installed ...$Y need yo install"
+    fi
 done
