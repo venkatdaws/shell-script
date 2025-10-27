@@ -4,6 +4,16 @@ TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
 
+VALIDATE(){
+    if [ $1 -ne 0 ]
+    then
+        echo -e "$2 ...$R FAILURE"
+        exit 1
+    else
+        echo -e "$2... $G SUCCESS"
+    fi
+}
+
 if [ $USERID -ne 0 ]
 then
     echo -e "Please run with super user"
